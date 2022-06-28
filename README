@@ -1,0 +1,150 @@
+bf theory
+
+initial setup:
+[a,b]
+ ^
+
+constructs:
++ := a++;
+- := a--;
+
+>+ :=
+	b++;
+	i = &b;
+>- :=
+	b--;
+	i = &b;
+
+>< := nop;
+<> := nop;
++- := nop;
+
+[-] := 
+	match(a){
+		>0: a = 0;
+		<0: inf;
+		0: nop;
+	}
+	
+[ - > + < ] :=
+	match(a){
+		>0:
+			a = 0;
+			b += a;
+		<0: inf;
+		==0: nop;
+	}
+
+[ + > + < ] := 
+	match(a){
+		>0: inf;
+		<0: 
+			a = 0;
+			b += a;
+		==0: nop;
+	}
+
+----------------------------
+startIndex: 1
+add.8 [sub.2 left.1 add.9 right.1] :=
+	mem[1] = 0;
+	mem[0] = (8/2)*9;
+	
+->
+
+ui32 i;       //index
+ui32 y,z;   //args
+const ui32 D; //shift distance
+[sub.z left.D add.y right.D] :=
+    if(){
+	    mem[i] = 0;
+	    mem[i-D] += (mem[i]/z)*y;
+    }
+---------------------------
+
+ui32 x;
+[add.x] :=
+	if(mem[i] < 0) mem[i] = 0;
+	else if(mem[i] > 0) error();
+	else nop();
+
+
+ui32 x;
+[sub.x] :=
+	if(mem[i] > 0) mem[i] = 0;
+	else if(mem[i] < 0) error();
+	else nop();
+	
+
+
+
+> ++++++++[-<+++++++++>] <.>>+>-[+]++>++>+++[>[->+++<<+++>]<<]>-----.>->
++++..+++.>-.<<+[>[+>+]>>]<--------------.>>.+++.------.--------.>+.>+.
+
+
+
++++[>[->+++<<+++>]<<]
+add.3 [right.1 [sub.1 right.1 add.3 left.2 add.3 right.1] left.2 ]
+
+
+const ui32 i; //memory index
+const ui32 x; //initial ith memory val
+[sub.1 right.1 add.3 left.2 add.3 right.1] :=
+	mem[i] = 0;
+	mem[i-1] = x*3;
+	mem[i+1] = x*3;
+
+int i = 10; //doesnt matter
+while(mem[i] != 0){
+    mem[i] -= 1; //sub 1            i =     i
+
+    i += 1;      //right 1
+	mem[i] += 3; //add 3        i + 1 = i + 1
+
+    i -= 2;      //left 2
+	mem[i] += 3; //add 3    i + 1 - 2 = i - 1
+	
+    i += 1;      //right 1
+}
+what matters in this example is that one variable
+is the counter and the other opcodes are for setting
+stuff in other memory locations.
+its like in functional programming, functions with
+consequences.
+
+loop is balanced if the inner sum of shifts equals zero.
+a balanced loop has the properties above.
+add.x [right.y left.y]
+
+add.x [sub.z left.D add.y right.D]
+
+add.x [sub.1 right.1]
+
+[>[+>+]>>]
+[right.1 [add.1 right.1 add.1] right.2]
+
+
+
+[<+++++++>-]
+loop is balanced because it has left.1 and right.1 which cancels out
+that means that the last add or sub affects the counter and is the divisor.
+[left.1 add.7 right.1 sub.1] :=
+	mem[i] = 0;
+	mem[i-1] += 7*x; //x is the initial value of mem[i] before running the loop
+
+
+
+0,0,0,0,0,0
+0,1,2,3,4,5
+
+types of bf code:
+	-constant loader, loads predetermined values into memory
+	-conditional, performs instructions based off of a condition
+
+1,2,0
+[sub1,right1,sub1,left1]
+
+
+[-<<<<+>>>>]
+[ sub.1 left.4 add.1 right.4 ] :=
+	mem[]
